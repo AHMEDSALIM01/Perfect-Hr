@@ -7,15 +7,15 @@ Description du Applicaton : PerfectHR est une application de gestion de resource
 * Autant qu'utilisateurs je peux me connecter afin de voir les  avis des réunions et des autres évennements.
 * Autant qu'utilisateurs je peux modifier mon profile. 
 * Autant qu'utilisateurs je peux demander,imprimer des attestations de travail ou les bulletins de paie  .
-* Autant qu'utilisateurs je peux demander les congés ou les annulé.
+* Autant qu'utilisateurs je peux demander les congés ou je peux les annulés.
 * Autant qu'utilisateurs je peux voir les missions assignés.
 * Autant qu'utilisateurs je peux ajouter des justifications de l'abscence "certificat medical".
 ## L’administrateur peut gérer l’ensemble du site Web :
-* Autant que admin je peux ajouter,supprimer ou modifier les listes des employés.
-* Autant que admin je peux créer des comptes pour les employés.
-* Autant que admin je peux assigner des taches aux employés.
-* Autant que admin je peux confirmer ou refuser les demandes de congés.
-* Autant que admin je peux faire des avis à propos les réunions .
+* Autant qu'admin je peux ajouter,supprimer ou modifier les listes des employés.
+* Autant qu'admin je peux créer des comptes pour les employés.
+* Autant qu'admin je peux assigner des taches aux employés.
+* Autant qu'admin je peux confirmer ou refuser les demandes de congés.
+* Autant qu'admin je peux faire des avis à propos les réunions .
 
 ## logiciels nécessaires
 
