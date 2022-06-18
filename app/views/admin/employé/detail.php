@@ -45,16 +45,19 @@
                                     <div class="row form-group d-flex justify-content-center">
                                         <div class="mb-3  col-12 col-sm-6">
                                             <input type="file" class="form-control shadow-none d-none input" id="image" name="image" disabled>
+                                            <small class="text-danger" id="errorImage"></small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="mb-3  col-12 col-sm-6">
                                             <label for="nom_complet" class="form-label">Nom Complet</label>
                                             <input type="text" class="form-control shadow-none input" name="nom_complet" id="nom_complet" value="<?php echo $data['employe']->nom_complet;?>" disabled style="border:none; border: bottom 10px solid red;">
+                                            <small class="text-danger" id="errorName"></small>
                                         </div>
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="cin" class="form-label">N° Cin</label>
                                             <input type="text" class="form-control shadow-none input" name="cin" id="cin" value="<?php echo $data['employe']->cin;?>" disabled>
+                                            <small class="text-danger" id="errorNCIN"></small>
                                         </div>
                                     </div>
 
@@ -62,11 +65,12 @@
                                         <div class="mb-3  col-12 col-sm-6">
                                             <label for="date_naissance" class="form-label">Date De Naissance</label>
                                             <input type="date" class="form-control shadow-none input" id="date_naissance" name ="date_naissance" value="<?php echo $data['employe']->date_naissance;?>" disabled>
-
+                                            <small class="text-danger" id="errorDateNaissance"></small>
                                         </div>
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="lieu_naissance" class="form-label">Lieu De Naissance</label>
                                             <input type="text" class="form-control shadow-none input" name="lieu_naissance" id="lieu_naissance" value="<?php echo $data['employe']->lieu_naissance;?>" disabled>
+                                            <small class="text-danger" id="errorLieu"></small>
                                         </div>
                                     </div>
 
@@ -74,10 +78,12 @@
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="email" class="form-control shadow-none input" id="email" name="email" value="<?php echo $data['employe']->email;?>" disabled>
+                                            <small class="text-danger" id="errorEmail"></small>
                                         </div>
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="telephone" class="form-label">N° De Téléphone</label>
                                             <input type="text" class="form-control shadow-none input" id="telephone" name="telephone" value="<?php echo $data['employe']->telephone;?>" disabled>
+                                            <small class="text-danger" id="errorTelephone"></small>
                                         </div>
                                     </div>
 
@@ -85,6 +91,7 @@
                                         <div class="mb-3  col-12 col-sm-6">
                                             <label for="adress" class="form-label">Address</label>
                                             <input type="text"  class="form-control shadow-none input" id="adress" name="adress" value="<?php echo $data['employe']->adress;?>" disabled>
+                                            <small class="text-danger" id="errorAdress"></small>
                                         </div>
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="role" class="form-label">Role</label>
@@ -95,6 +102,7 @@
                                                 <option value="<?php if(isset($data['employe']) && $data['employe']->role=="technicien(ne)"){echo $data['employe']->role;} ?>" <?php if(isset($data['employe']) && $data['employe']->role=="technicien(ne)") echo 'selected'?>>Technicien(ne)</option>
                                                 <option value="<?php if(isset($data['employe']) && $data['employe']->role=="ouvrier"){echo $data['employe']->role;} ?>" <?php if(isset($data['employe']) && $data['employe']->role=="ouvrier") echo 'selected'?>>Ouvrier</option>
                                             </select>
+                                            <small class="text-danger" id="errorRole"></small>
                                         </div>
                                     </div>
 
@@ -102,10 +110,12 @@
                                         <div class="mb-3  col-12 col-sm-6">
                                             <label for="date_embauche" class="form-label">Date D'embauche</label>
                                             <input type="date" class="form-control shadow-none input" id="date_embauche" name="date_embauche" value="<?php echo $data['employe']->date_embauche;?>" disabled>
+                                            <small class="text-danger" id="errorDateEmbauche"></small>
                                         </div>
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="n_cnss" class="form-label">N° Cnss</label>
                                             <input type="text" class="form-control shadow-none input" id="n_cnss" name="n_cnss" value="<?php echo $data['employe']->n_cnss;?>" disabled>
+                                            <small class="text-danger" id="errorNCNSS"></small>
                                         </div>
                                     </div>
 
@@ -113,10 +123,12 @@
                                         <div class="mb-3  col-12 col-sm-6">
                                             <label for="compte_bancaire" class="form-label">N° De Compte bancaire</label>
                                             <input type="text" class="form-control shadow-none input" id="compte_bancaire" name="compte_bancaire" value="<?php echo $data['employe']->compte_bancaire;?>" disabled>
+                                            <small class="text-danger" id="errorCompteBancaire"></small>
                                         </div>
                                         <div class="mb-3 col-12 col-sm-6">
                                             <label for="banque" class="form-label">Banque</label>
                                             <input type="text" class="form-control shadow-none input" id="banque" name="banque" value="<?php echo $data['employe']->banque;?>" disabled>
+                                            <small class="text-danger" id="errorBanque"></small>
                                         </div>
                                         <div class="mb-3 d-none col-12 col-sm-6">
                                             <input type="hidden" class="form-control shadow-none input" id="id" name="id" value="<?php echo $data['employe']->id_employe;?>" disabled>
@@ -199,7 +211,7 @@
         let errorCompteBancaire=document.getElementById('errorCompteBancaire');
         let errorBanque=document.getElementById('errorBanque');
         let errorImage=document.getElementById('errorImage');
-        let submit=document.getElementById('ajouter');
+        let submit=document.getElementById('edit');
 
 
         modifier.addEventListener('click',function(){
@@ -339,15 +351,7 @@
                 inputBanque.style.borderColor='green';
             }
 
-            if(inputImage.value==''){
-                errorImage.innerText='Ce champ est obligatoire';
-                inputImage.style.borderColor='red';
-            }
-            else{
-                errorImage.innerText='';
-                inputImage.style.borderColor='green';
-            }
-            if(inputNom.value == '' || inputEmail.value == '' || inputCin.value == '' || inputDateNaissance.value == '' || inputLieuNaissance.value == '' || inputTelephone.value == '' || inputAdress.value == '' || inputRole.value == '' || inputDateEmbauche.value == '' || inputNCNSS.value == '' || inputCompteBancaire.value == '' || inputBanque.value == '' || inputImage.value == ''){
+            if(inputNom.value == '' || inputEmail.value == '' || inputCin.value == '' || inputDateNaissance.value == '' || inputLieuNaissance.value == '' || inputTelephone.value == '' || inputAdress.value == '' || inputRole.value == '' || inputDateEmbauche.value == '' || inputNCNSS.value == '' || inputCompteBancaire.value == '' || inputBanque.value == ''){
                 e.preventDefault();
             }
         });
