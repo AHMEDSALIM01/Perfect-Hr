@@ -71,7 +71,7 @@
                                                         <tr class="text-center align-middle">
                                                             <td ><?php echo $evenement->id;?></td>
                                                             <td ><?php echo $evenement->designation;?></td>
-                                                            <td ><?php echo $evenement->date_evenement;?></td>
+                                                            <td id="date_evt" data-evnt="<?php echo $evenement->date_evenement;?>"><?php echo $evenement->date_evenement;?></td>
                                                             <td ><?php echo $evenement->lieu_evenement;?></td>
                                                             <td ><span class="<?php if(isset($evenement) && $evenement->status=="passe"){echo "text-success text-center";}else{echo "text-warning fw-bold text-center";}?>"><?php echo $evenement->status.' ';?><i class="fa-solid fa-fw fa-ellipsis <?php if($evenement->status !='prochain'){echo 'd-none';}?>"></i><i class="fa-solid fa-check <?php if($evenement->status !='passe'){echo 'd-none';}?>"></i></span></td>
                                                             <td id="accepter" class="btn btn-outline-light text-success btn-sm "><a href="<?php if($evenement->status=='passe'){echo '#';}else{echo URLROOT.'/admin/closeEvenement/'.$evenement->id;} ?>" class="text-success"><i class="fa-solid fa-sm fa-fw fa-check"></i></a></td>
@@ -171,5 +171,14 @@
             title.innerHTML = "Liste des événements";
         });
 
+    </script>
+    <script>
+        $(document).ready(function(){
+           $('date_evt').each(function(index, value){
+                var date = new Date(value);
+                var date_evt = date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();
+                $(this).val(date_evt);
+            });
+        });
     </script>
 <?php require_once APPROOT.'/views/includes/footer.php'?>

@@ -194,10 +194,8 @@
         let regexTelephone=/^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$/;
         let regexEmail=/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/;
         let regexCin=/^[A-Z0-9]{8}$/;
-        let regexAdress=/^[a-zA-Z0-9]{3,}$/;
         let regexNCNSS=/^[0-9]{3,12}$/;
         let regexCompteBancaire=/^[0-9]{3,16}$/;
-        let regexBanque=/^[a-zA-Z]{3,}$/;
         let errorName=document.getElementById('errorName');
         let errorEmail=document.getElementById('errorEmail');
         let errorCin=document.getElementById('errorNCIN');
@@ -230,6 +228,19 @@
             });
             edit.setAttribute('class','btn btn-primary d-none');
             annuler.setAttribute('class','btn btn-danger d-none');
+            errorName.innerHTML='';
+            errorEmail.innerHTML='';
+            errorCin.innerHTML='';
+            errorDateNaissance.innerHTML='';
+            errorLieuNaissance.innerHTML='';
+            errorTelephone.innerHTML='';
+            errorAdress.innerHTML='';
+            errorRole.innerHTML='';
+            errorDateEmbauche.innerHTML='';
+            errorNCNSS.innerHTML='';
+            errorCompteBancaire.innerHTML='';
+            errorBanque.innerHTML='';
+            errorImage.innerHTML='';
         });
         delete_btn.addEventListener('click',function(){
             if(confirm('Voulez-vous vraiment supprimer cet employé ?')){

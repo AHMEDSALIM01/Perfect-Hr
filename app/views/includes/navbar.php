@@ -66,8 +66,8 @@
                                 ?>
                                 <a class="dropdown-item d-flex align-items-center " style="<?php if($notification->status=='non lus'){echo '';}else{echo 'background-color:#f5f6f9';}?>" href="<?php if($notification->status=='non lus'){echo URLROOT.'/admin/readNotification/'.$notification->id;}else{echo '#';}?>">
                                     <div class="mr-3">
-                                        <div class="icon-circle  <?php if($notification->type=="tache"){echo "bg-primary";}elseif($notification->type=="evenement"){echo "bg-danger";}else{echo "bg-warning";}?>">
-                                        <i class="<?php if($notification->type=="tache"){echo "fa-solid fa-lg fa-list-check text-white";}elseif($notification->type=="evenement"){echo "fa-solid fa-lg fa-circle-exclamation text-white";}else{echo "fa-solid fa-lg fa-file-lines text-white";} ?> "></i>
+                                        <div class="icon-circle  <?php if($notification->type=="tache"){echo "bg-primary";}elseif($notification->type=="justification absence"){echo "bg-danger";}else{echo "bg-warning";}?>">
+                                        <i class="<?php if($notification->type=="tache"){echo "fa-solid fa-lg fa-list-check text-white";}elseif($notification->type=="justification absence"){echo "fa-solid fa-lg fa-file-lines text-white";}else{echo "fa-solid fa-lg fa-calendar-check text-white";} ?> "></i>
                                         </div>
                                     </div>
                                     <div>

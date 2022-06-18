@@ -10,6 +10,7 @@
       $this->notificationModel = $this->model('./','Notification');
       $this->messageModel = $this->model('./','Messages');
       $this->documentModel = $this->model('Adminfolder/','DocumentsAdmin');
+      $this->documentEmployeModel = $this->model('employefolder/','DocumentsEmploye');
     }
 
     public function dashboard(){
@@ -61,6 +62,49 @@
        }
     }
 
+    public function demandeConge(){
+      if(isset($_SESSION['role']) && $_SESSION['role'] =="employe" && $this->adminModel->getEmployeById($_SESSION['id'])->count!=0){
+        if(isset($_POST['ajouter'])){
+            $data=[
+              'id_employe'=>$_SESSION['id'],
+              'designation'=>$_POST['designation'],
+              'date_debut'=>$_POST['date_debut'],
+              'date_fin'=>$_POST['date_fin'],
+              'duree'=>$_POST['duree'],
+            ];
+            if($data['designation'] != "" && $data['date_debut'] != "" && $data['date_fin'] != "" && $data['duree'] != ""){
+                if($this->congesModel->createConges($data)){
+                  $datas=[
+                    'id_employe'=>$_SESSION['id'],
+                    'designation'=>'l\'utilisateur '.$_SESSION['nom_complet'].' a demandé un congé d\'une durée de '.$_POST['duree'].' jours',
+                    'type'=>"Congé",
+                  ];
+                  if($this->notificationModel->addNotificationAdmin($datas)){
+                    echo '<script>alert("Demande envoyée avec succès");</script>';
+                    echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+                  
+                  }else{
+                    echo '<script>alert("Erreur lors de l\'envoie de la demande");</script>';
+                    echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+                  }
+                }else{
+                  echo '<script>alert("Erreur lors de l\'envoie de la demande");</script>';
+                  echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+                }
+
+            }
+        }
+      }elseif(!isset($_SESSION['role'])){
+          
+          header('Location:'.URLROOT.'/index');
+
+      }elseif(isset($_SESSION['role']) && $_SESSION['role'] =="employe" && $this->adminModel->getEmployeById($_SESSION['id'])->count==0){
+        header('Location:'.URLROOT.'/employe/profile/index');
+      }else{
+            header('Location: '.URLROOT.'/ErrorController/index');
+        }
+    }
+
     public function evenement(){
       
 
@@ -99,13 +143,31 @@
           'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
           'title' => 'Taches'
         ];
-        if($this->tachesModel-> getAllTachesEncoursByIdEmploye($_SESSION['id']) || $this->tachesModel-> getAllTachesTermineByIdEmploye($_SESSION['id'])){
+        if($this->tachesModel-> getAllTachesEncoursByIdEmploye($_SESSION['id']) && $this->tachesModel-> getAllTachesTermineByIdEmploye($_SESSION['id'])){
           $data=[
             'count' =>$this->notificationModel->getCountNoReadEmploye($_SESSION['id']) ? $this->notificationModel->getCountNoReadEmploye($_SESSION['id']) : "",
             'notifications'=> $this->notificationModel->getNotificationEmploye($_SESSION['id']) ? $this->notificationModel->getNotificationEmploye($_SESSION['id']):[],
             'countm' =>$this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) ? $this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) : "",
             'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
             'tacheEncours' => $this->tachesModel-> getAllTachesEncoursByIdEmploye($_SESSION['id']),
+            'tacheTermine' => $this->tachesModel-> getAllTachesTermineByIdEmploye($_SESSION['id']),
+            'title' => 'Taches'
+          ];
+        }elseif($this->tachesModel-> getAllTachesEncoursByIdEmploye($_SESSION['id'])){
+          $data=[
+            'count' =>$this->notificationModel->getCountNoReadEmploye($_SESSION['id']) ? $this->notificationModel->getCountNoReadEmploye($_SESSION['id']) : "",
+            'notifications'=> $this->notificationModel->getNotificationEmploye($_SESSION['id']) ? $this->notificationModel->getNotificationEmploye($_SESSION['id']):[],
+            'countm' =>$this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) ? $this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) : "",
+            'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
+            'tacheEncours' => $this->tachesModel-> getAllTachesEncoursByIdEmploye($_SESSION['id']),
+            'title' => 'Taches'
+          ];
+        }elseif($this->tachesModel-> getAllTachesTermineByIdEmploye($_SESSION['id'])){
+          $data=[
+            'count' =>$this->notificationModel->getCountNoReadEmploye($_SESSION['id']) ? $this->notificationModel->getCountNoReadEmploye($_SESSION['id']) : "",
+            'notifications'=> $this->notificationModel->getNotificationEmploye($_SESSION['id']) ? $this->notificationModel->getNotificationEmploye($_SESSION['id']):[],
+            'countm' =>$this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) ? $this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) : "",
+            'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
             'tacheTermine' => $this->tachesModel-> getAllTachesTermineByIdEmploye($_SESSION['id']),
             'title' => 'Taches'
           ];
@@ -334,6 +396,50 @@
           'title' => 'Attestation de salaire'
         ];
         $this->view('employe/attestationSalaire/index', $data);
+      }else{
+        die('error');
+      }
+    
+    }
+
+    public function addJustif(){
+      if(isset($_SESSION['role']) && $_SESSION['role'] == 'employe'){
+          
+        $data=[
+          'count' =>$this->notificationModel->getCountNoReadEmploye($_SESSION['id']) ? $this->notificationModel->getCountNoReadEmploye($_SESSION['id']) : "",
+          'notifications'=> $this->notificationModel->getNotificationEmploye($_SESSION['id']) ? $this->notificationModel->getNotificationEmploye($_SESSION['id']):[],
+          'countm' =>$this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) ? $this->messageModel->getCountNotReadByIdEmploye($_SESSION['id']) : "",
+          'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
+          'title' => 'Attestation de salaire'
+        ];
+        if(isset($_POST['addJustif'])){
+              $upload_dir ='C:/wamp64/www/Projet-Fil-Rouge/public/documentsAdministratif/';
+              $file_ext = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+              $userfile = rand(1000, 1000000).'.'.$file_ext;
+              $size = $_FILES['file']['size'];
+              $data=[
+                'id_employe' => $_SESSION['id'],
+                'nom_complet_employe' => $_SESSION['nom_complet'],
+                'designation'=> $_POST['designation'],
+                'file' => $userfile,
+              ];
+          if($this->documentEmployeModel->sendJustif($data)){
+              if(move_uploaded_file($_FILES['file']['tmp_name'], $upload_dir.$userfile) && $size < 5000000){
+                $data=[
+                  'id_employe' => $_SESSION['id'],
+                  'type' => 'justification absence',
+                  'designation'=>'l\'utilisateur '.$_SESSION['nom_complet'].' a ajouté une justification d\'absence',
+                ];
+                if($this->notificationModel->addNotificationAdmin($data)){
+                    header('Location: '.URLROOT.'/employe/documents');
+                }
+              }else{
+                echo '<script>alert("Votre fichier est trop volumineux");</script>';
+              }
+          }
+              
+        }
+        $this->view('employe/documents/addjustif', $data);
       }else{
         die('error');
       }

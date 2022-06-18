@@ -17,18 +17,14 @@ class CongesEmploye extends Conges{
 
     public function createConges($data)
     {
-        $this->db->query("INSERT INTO conge (id_employe, designation, date_debut, date_fin, durée, statut) VALUES (:id_employe, :designation, :date_debut, :date_fin, :durée, :statut)");
-        $this->db->bind(':id_employe', $data['id_employe']);
-        $this->db->bind(':designation', $data['designation']);
-        $this->db->bind(':date_debut', $data['date_debut']);
-        $this->db->bind(':date_fin', $data['date_fin']);
-        $this->db->bind(':durée', $data['durée']);
-        $this->db->bind(':statut', $data['statut']);
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        $results =$this->db->query("INSERT INTO conge (id_employe, designation, date_debut, date_fin, duree) VALUES (:id_employe, :designation, :date_debut, :date_fin, :duree)");
+        $results =$this->db->bind(':id_employe', $data['id_employe']);
+        $results =$this->db->bind(':designation', $data['designation']);
+        $results =$this->db->bind(':date_debut', $data['date_debut']);
+        $results =$this->db->bind(':date_fin', $data['date_fin']);
+        $results =$this->db->bind(':duree', $data['duree']);
+        $results = $this->db->execute();
+        return $results;
     }
 
     public function updateConges($data)
