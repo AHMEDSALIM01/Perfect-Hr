@@ -60,8 +60,6 @@
                                               
                                                 <tr class="text-center align-middle">
                                                     <th>#</th>
-                                                    <th>id_employe</th>
-                                                    <th>Nom de l'employe</th>
                                                     <th>Désignation</th>
                                                     <th>Date d'opération</th>
                                                 </tr>
@@ -71,8 +69,6 @@
                                             <tbody>
                                                 <tr class="text-center align-middle">
                                                     <td ><?php echo $justification->id_justif;?></td>
-                                                    <td ><?php echo $justification->id_employe;?></td>
-                                                    <td ><?php echo $justification->nom_complet_employe;?></td>
                                                     <td ><?php echo $justification->designation;?></td>
                                                     <td ><?php echo $justification->date_operation;?></td>
                                                 </tr>
@@ -118,7 +114,7 @@
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <?php if(!isset($data['attestations'])){
+                                        <?php if(!isset($data['attestations']) || empty($data['attestations'])){
                                             
                                         ?>
                                         <h4 class="text-secondary text-center">Aucunne Attestation Existé</h3>
@@ -174,7 +170,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; PERFECT HR 2022</span>
                     </div>
                 </div>
             </footer>

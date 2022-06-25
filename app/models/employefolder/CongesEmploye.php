@@ -46,14 +46,11 @@ class CongesEmploye extends Conges{
 
     public function deleteConges($id_employe, $id)
     {
-        $this->db->query("DELETE FROM conges WHERE id_employe = :id_employe AND id = :id");
-        $this->db->bind(':id_employe', $id_employe);
-        $this->db->bind(':id', $id);
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        $results = $this->db->query("DELETE FROM conge WHERE id_employe = :id_employe AND id_conge = :id");
+        $results = $this->db->bind(':id_employe', $id_employe);
+        $results = $this->db->bind(':id', $id);
+        $results = $this->db->execute();
+        return $results;
     }
 
 }

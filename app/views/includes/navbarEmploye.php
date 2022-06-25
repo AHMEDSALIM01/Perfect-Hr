@@ -78,7 +78,7 @@
                                 <?php } }else{
                             
                                 ?>
-                                <h6 class="text-secondary text-center" style ="">Aucunne Notification existée</h3>
+                                <h6 class="text-secondary text-center">Aucunne Notification existée</h3>
                                 <?php } ?>
                             </div>
                         </li>

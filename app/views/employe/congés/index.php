@@ -80,7 +80,7 @@
                                                         <td ><?php echo $conge->duree;?></td>
                                                         <td ><span class="<?php if(isset($conge) && $conge->status_conge=="accepté"){echo "text-success text-center";}elseif(isset($conge) && $conge->status_conge=="refusé"){echo "text-danger fw-bold text-center";}else{echo "text-warning fw-bold text-center";}?>"><?php echo $conge->status_conge.' ';?><i class="fa-solid fa-fw fa-ellipsis <?php if($conge->status_conge !='en cours'){echo 'd-none';}?>"></i><i class="fa-solid fa-check <?php if($conge->status_conge !='accepté'){echo 'd-none';}?>"></i><i class="fa-solid fa-md fa-fw fa-close <?php if($conge->status_conge !='refusé'){echo 'd-none';}?>"></span></td>
                                                         <td id="editer" class="btn btn-outline-light text-success btn-sm "><a href="<?php if($conge->status_conge =='en cours'){echo URLROOT.'/employe/editConge/'.$conge->id_conge;}else{echo '#';} ?>" class="text-primary"><i class="fa-solid fa-sm fa-fw fa-pen"></i></a></td>
-                                                        <td class="btn btn-outline-light btn-sm "><a href="<?php if($conge->status_conge == 'en cours'){echo URLROOT.'/employe/editConge/'.$conge->id_conge;}else{echo '#'; }?>" class="text-danger"><i class="fa-solid fa-md fa-fw fa-trash"></i></a</td>
+                                                        <td class="btn btn-outline-light btn-sm "><a href="<?php if($conge->status_conge == 'en cours'){echo URLROOT.'/employe/deleteConge/'.$conge->id_conge;}else{echo '#'; }?>" class="text-danger"><i class="fa-solid fa-md fa-fw fa-trash"></i></a</td>
                                                     </tr>
                                                     <?php
                                                         }}
@@ -147,7 +147,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; PERFECT HR 2022</span>
                     </div>
                 </div>
             </footer>

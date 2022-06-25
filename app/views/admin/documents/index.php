@@ -126,7 +126,7 @@
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <?php if(!isset($data['attestations'])){
+                                        <?php if(!isset($data['attestations']) || empty($data['attestations'])){
                                             
                                         ?>
                                         <h4 class="text-secondary text-center">Aucunne Attestation Existé</h3>
@@ -182,7 +182,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; PERFECT HR 2022</span>
                     </div>
                 </div>
             </footer>
@@ -229,7 +229,7 @@
         });
 
 
-        ajoutAT.addEventListener("click", function(){
+        ajoutJustif.addEventListener("click", function(){
             addAT.classList.add("d-block");
             aTTable.classList.add("d-none");
         });
@@ -247,6 +247,16 @@
                 salaire.classList.add('d-none');
             }
 
+        });
+
+        ajoutAT.addEventListener("click", function(){
+            addAT.classList.add("d-block");
+            aTTable.classList.add("d-none");
+        });
+
+        annuler.addEventListener("click", function(){
+            addAT.classList.remove("d-block");
+            aTTable.classList.remove("d-none");
         });
 
 

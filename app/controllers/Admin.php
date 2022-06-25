@@ -168,7 +168,7 @@
           
 
           if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir.$userpic) && $size < 5000000){
-                if($data['id'] != '' && $data['nom_complet'] != '' && $data['cin'] != '' && $data['date_naissance'] != '' && $data['lieu_naissance'] != '' && $data['email'] != '' && $data['telephone'] != '' && $data['adress'] != '' && $data['role'] != '' && $data['date_embauche'] != '' && $data['n_cnss'] != '' && $data['compte_bancaire'] != '' && $data['banque'] != '' && $data['image'] != ''){
+                if($data['nom_complet'] != '' && $data['cin'] != '' && $data['date_naissance'] != '' && $data['lieu_naissance'] != '' && $data['email'] != '' && $data['telephone'] != '' && $data['adress'] != '' && $data['role'] != '' && $data['date_embauche'] != '' && $data['n_cnss'] != '' && $data['compte_bancaire'] != '' && $data['banque'] != '' && $data['image'] != ''){
                     if(preg_match("/^[a-z A-Z]*$/",$data['nom_complet']) || preg_match("/^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$/",$data['telephone']) || preg_match("/^[0-9]{3,12}$/",$data['n_cnss']) || preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/",$data['email']) || preg_match("/^[A-Z0-9]{8}$/",$data['cin']) || preg_match("/^[0-9]{3,16}$/",$data['compte_bancaire'])){               
                         if($this->adminModel->createEmploye($data)){
                           header('Location: '.URLROOT.'/admin/employe');
@@ -607,7 +607,7 @@
             $this->view('admin/employé/addaccount', $data);
             function password_generate($chars) 
             {
-              $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
+              $data = '@$%^&*()_+1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
               return substr(str_shuffle($data), 0, $chars);
               exit;
             }

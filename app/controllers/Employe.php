@@ -105,6 +105,60 @@
         }
     }
 
+    public function editConge($id){
+      if(isset($_SESSION['role']) && $_SESSION['role'] =="employe" && $this->adminModel->getEmployeById($_SESSION['id'])->count!=0){
+        if(isset($_POST['modifier'])){
+            $data=[
+              'id_employe'=>$_SESSION['id'],
+              'designation'=>$_POST['designation'],
+              'date_debut'=>$_POST['date_debut'],
+              'date_fin'=>$_POST['date_fin'],
+              'duree'=>$_POST['duree'],
+            ];
+            if($data['designation'] != "" && $data['date_debut'] != "" && $data['date_fin'] != "" && $data['duree'] != ""){
+                if($this->congesModel->updateConges($data,$id)){
+                  $datas=[
+                    'id_employe'=>$_SESSION['id'],
+                    'designation'=>'l\'utilisateur '.$_SESSION['nom_complet'].' a modifié son congé d\'une durée de '.$_POST['duree'].' jours',
+                    'type'=>"Congé",
+                  ];
+                  if($this->notificationModel->addNotificationAdmin($datas)){
+                    echo '<script>alert("Demande envoyée avec succès");</script>';
+                    echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+                    
+                  }else{
+                    echo '<script>alert("Erreur lors de l\'envoie de la demande");</script>';
+                    echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+                  }
+                }else{
+                  echo '<script>alert("Erreur lors de l\'envoie de la demande");</script>';
+                  echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+                }
+              }
+        }   
+      }
+    }
+
+    public function deleteConge($id){
+      if(isset($_SESSION['role']) && $_SESSION['role'] =="employe" && $this->adminModel->getEmployeById($_SESSION['id'])->count!=0){
+        if($this->congesModel->deleteConges($_SESSION['id'],$id)){
+          $datas=[
+            'id_employe'=>$_SESSION['id'],
+            'designation'=>'l\'utilisateur '.$_SESSION['nom_complet'].' a supprimé sa demande de congé',
+            'type'=>"Conge",
+          ];
+          if($this->notificationModel->addNotificationAdmin($datas)){
+            echo '<script>alert("Demande supprimée avec succès");</script>';
+            echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+            
+          }else{
+            echo '<script>alert("Erreur lors de l\'envoie de la demande");</script>';
+            echo '<script>window.location.href="'.URLROOT.'/employe/conges/index";</script>';
+          }
+        }
+      }
+    }
+
     public function evenement(){
       
 
@@ -205,22 +259,28 @@
       if(isset($_SESSION['role']) && $_SESSION['role'] =="employe" && $this->adminModel->getEmployeById($_SESSION['id'])->count==0){
         $data['title']='Changer mot de passe';
         if(isset($_POST['valider'])){
-          $data=[
-            'title' => 'Profile',
-            'password' => md5($_POST['new_password']),
-            'password_confirm' => md5($_POST['confirm_password']),
-            'id' => $_SESSION['id']
-          ];
-          if($data['password']==$data['password_confirm']){
-            $this->adminModel->updatePasswordFirstLogin($data);
-            echo '<script>alert("Mot de passe modifié avec succès")</script>';
-            echo '<script>window.location.href="'.URLROOT.'/employe/dashboard"</script>';
-          }else{
-            echo '<script>alert("Les mots de passe ne correspondent pas")</script>';
-            echo '<script>window.location.href="'.URLROOT.'/employe/dashboard"</script>';
+          if($_POST['new_password'] != '' && $_POST['confirm_password'] != ''){
+                if(preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $_POST['new_password']) && $_POST['new_password'] == $_POST['confirm_password']){
+                  
+                    $data=[
+                      'title' => 'Profile',
+                      'password' => md5($_POST['new_password']),
+                      'password_confirm' => md5($_POST['confirm_password']),
+                      'id' => $_SESSION['id']
+                    ];
+                    if($data['password']==$data['password_confirm']){
+                      $this->adminModel->updatePasswordFirstLogin($data);
+                      echo '<script>alert("Mot de passe modifié avec succès")</script>';
+                      echo '<script>window.location.href="'.URLROOT.'/employe/dashboard"</script>';
+                    }else{
+                      echo '<script>alert("Les mots de passe ne correspondent pas")</script>';
+                      echo '<script>window.location.href="'.URLROOT.'/employe/dashboard"</script>';
+                    }
+                }
           }
         }
         $this->view('employe/profile/index', $data);
+
        }elseif(!isset($_SESSION['role'])){
 
         header('Location:'.URLROOT.'/index');
@@ -230,6 +290,7 @@
           }else{
                 header('Location: '.URLROOT.'/ErrorController/index');
           }
+        
     }
     public function readNotification($id){
       $data=[
@@ -240,14 +301,15 @@
         if($this->notificationModel->getNotificationByIdEmploye($id)->type=='tache'){
           $datas['redirect']='taches';
         }elseif($this->notificationModel->getNotificationByIdEmploye($id)->type == 'attestation de travail'){
-          $datas['redirect']='attestationTravail/';
+          $datas['redirect']='documents';
         }elseif($this->notificationModel->getNotificationByIdEmploye($id)->type=='attestation de salaire'){
-          $datas['redirect']='attestationSalaire/';
+          $datas['redirect']=' documents';
         }else{
           $datas['redirect']='conges';
         }
           if($this->notificationModel->notificationsReadsEmploye($id)){
-              header('Location: '.URLROOT.'/employe/'.$datas['redirect'].'/'.$id);
+
+              header('Location: '.URLROOT.'/employe/'.$datas['redirect']);
           }
       }elseif(!isset($_SESSION['role'])){
           header('Location:'.URLROOT.'/index');
@@ -351,7 +413,7 @@
                 'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
                 'employe' => $this->adminModel->getAllEmployeActive() ? $this->adminModel->getAllEmployeActive():[],
                 'attestations' => $this->documentModel->getAttestationByIdEmploye($_SESSION['id']),
-                'justifications' => $this->documentModel->getAllJustifications() ? $this->documentModel->getAllJustifications():[],
+                'justifications' => $this->documentEmployeModel->getAllJustificationsByIdEmploye($_SESSION['id']) ? $this->documentEmployeModel->getAllJustificationsByIdEmploye($_SESSION['id']):[],
                 'title' => 'Documents'
               ];
               $this->view('employe/documents/index', $data);
@@ -371,7 +433,7 @@
           'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
           'employe' => $this->adminModel->getAllEmployeActive() ? $this->adminModel->getAllEmployeActive():[],
           'attestations' => $this->documentModel->getAttestations() ? $this->documentModel->getAttestations():[],
-          'justifications' => $this->documentModel->getAllJustifications() ? $this->documentModel->getAllJustifications():[],
+          'justifications' => $this->documentEmployeModel->getAllJustificationsByIdEmploye($_SESSION['id']) ? $this->documentEmployeModel->getAllJustificationsByIdEmploye($_SESSION['id']):[],
           'ATT'=>$this->documentModel->getAttestationById($id),
           'title' => 'Attestation de travail'
         ];
@@ -391,7 +453,7 @@
           'messages'=> $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']) ? $this->messageModel->getMessagesAdminByIdEmploye($_SESSION['id']):[],
           'employe' => $this->adminModel->getAllEmployeActive() ? $this->adminModel->getAllEmployeActive():[],
           'attestations' => $this->documentModel->getAttestations() ? $this->documentModel->getAttestations():[],
-          'justifications' => $this->documentModel->getAllJustifications() ? $this->documentModel->getAllJustifications():[],
+          'justifications' => $this->documentEmployeModel->getAllJustificationsByIdEmploye($_SESSION['id']) ? $this->documentEmployeModel->getAllJustificationsByIdEmploye($_SESSION['id']):[],
           'ATT'=>$this->documentModel->getAttestationById($id),
           'title' => 'Attestation de salaire'
         ];

@@ -16,5 +16,12 @@ class DocumentsEmploye extends Documents{
         return $results;
 
     }
+
+    public function getAllJustificationsByIdEmploye($id){
+        $results = $this->db->query("SELECT * FROM justif_absence WHERE id_employe = :id");
+        $results = $this->db->bind(':id', $id);
+        $results = $this->db->resultSet();
+        return $results;
+    }
     
 }
